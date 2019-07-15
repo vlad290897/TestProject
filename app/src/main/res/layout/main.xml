@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button android:id="@+id/activity2_Btn" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="activity2"/>
+
+    <com.example.testproject.custom_view.MyCustomView android:layout_width="match_parent"
+                                                      android:layout_height="match_parent"
+                                                      android:id="@+id/myCoustomView_ID"/>
+
+</LinearLayout>
