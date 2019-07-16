@@ -7,12 +7,12 @@ import android.graphics.Paint
 import android.util.Log
 import android.view.View
 
-class Sircle(context: Context, val xPosition: Float, val yPosition: Float) : Figure(context) {
+class Sircle(context: Context, val xPosition: Float, val yPosition: Float,val radius:Float) : Figure(context) {
     private val mPaint = Paint()
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         Log.d("MyLog", "MI TIT")
         mPaint.setColor(Color.YELLOW);
-        canvas?.drawCircle(xPosition, yPosition, 50f, mPaint)
+        canvas?.drawCircle(xPosition, yPosition, radius, mPaint)
     }
 }
