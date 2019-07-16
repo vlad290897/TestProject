@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="google_brand_colors_array">
+        <item>#4285F4</item>
+        <item>#DB4437</item>
+        <item>#F4B400</item>
+        <item>#0F9D58</item>
+    </array>
+</resources>
