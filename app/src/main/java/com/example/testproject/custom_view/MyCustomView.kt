@@ -8,14 +8,21 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.testproject.R
 
 class MyCustomView : View, View.OnTouchListener {
 
-    var figures = mutableListOf<Figure>()
-    var colors: MutableList<Int>? = ArrayList()
+    private var figures = mutableListOf<Figure>()
+    private var colors: MutableList<Int>? = ArrayList()
+    private var figuresCount: Int = 0
     private val attributesArray: TypedArray
+    private var figuresCountChangedListener: ((Int) -> Unit)? = null
+    private var maxCountFiguresListener: (() -> Unit)? = null
 
     lateinit var myCustomView: MyCustomView
     private val SIRCLE = 0
@@ -24,20 +31,45 @@ class MyCustomView : View, View.OnTouchListener {
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                val randomFigure = (0..2).random()
-                val randomRadius = (40..100).random()
-                when (randomFigure) {
-                    SIRCLE -> figures.add(Sircle(context, event.x, event.y, randomRadius.toFloat(), colors?.random()))
-                    SQUARE -> figures.add(Square(context, event.x, event.y, randomRadius.toFloat(), colors?.random()))
-                    ROUNDED_SQUARE -> figures.add(
-                        RoundedSquare(
-                            context,
-                            event.x,
-                            event.y,
-                            randomRadius.toFloat(),
-                            colors?.random()
+                if (figuresCount != 10) {
+                    val randomFigure = (0..2).random()
+                    val randomRadius = (40..100).random()
+                    when (randomFigure) {
+                        SIRCLE -> figures.add(
+                            Sircle(
+                                context,
+                                event.x,
+                                event.y,
+                                randomRadius.toFloat(),
+                                colors?.random()
+                            )
                         )
-                    )
+                        SQUARE -> figures.add(
+                            Square(
+                                context,
+                                event.x,
+                                event.y,
+                                randomRadius.toFloat(),
+                                colors?.random()
+                            )
+                        )
+                        ROUNDED_SQUARE -> figures.add(
+                            RoundedSquare(
+                                context,
+                                event.x,
+                                event.y,
+                                randomRadius.toFloat(),
+                                colors?.random()
+                            )
+                        )
+                    }
+                    figuresCount++
+                    figuresCountChangedListener?.invoke(figuresCount)
+                } else {
+                    maxCountFiguresListener?.invoke()
+                    figuresCount = 0
+                    figuresCountChangedListener?.invoke(figuresCount)
+                    figures.clear()
                 }
                 invalidate()
             }
@@ -56,11 +88,11 @@ class MyCustomView : View, View.OnTouchListener {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         init()
         attributesArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MyCustomView, 0, 0)
-        prepareDefaultColor()
+        prepareColors()
 
     }
 
-    fun prepareDefaultColor() {
+    fun prepareColors() {
         val colorsArray = attributesArray.getResourceId(R.styleable.MyCustomView_figure_colors_array, 0)
 
         if (colorsArray == 0) {
@@ -73,6 +105,14 @@ class MyCustomView : View, View.OnTouchListener {
             }
             colorsTypedArray.recycle()
         }
+    }
+
+    fun setFiguresCountChangedListener(listener: (Int) -> Unit) {
+        figuresCountChangedListener = listener
+    }
+
+    fun setMaxCountFiguresListener(listener: () -> Unit) {
+        maxCountFiguresListener = listener
     }
 
     private fun init() {

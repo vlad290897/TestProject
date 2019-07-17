@@ -4,13 +4,17 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <Button android:id="@+id/activity2_Btn" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="activity2"/>
+    <TextView android:id="@+id/figuresCountTv"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textSize="30dp"
+    />
 
     <com.example.testproject.custom_view.MyCustomView android:layout_width="match_parent"
                                                       android:layout_height="match_parent"
                                                       android:id="@+id/myCoustomView_ID"
-                                                      app:figure_colors_array="@array/google_brand_colors_array"
+                                                      app:figure_colors_array="@array/colors_array"
                                                       app:figure_default_color="#FC0000"/>
 
 </LinearLayout>
